@@ -1,4 +1,4 @@
-FROM gradle:6.7.0-jdk11
+FROM gradle:7.3.3-jdk11
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     xvfb \
@@ -11,6 +11,7 @@ RUN apt-get update \
     ffmpeg \
     locales \
     locales-all \
+    libxss1 \
     gnupg2 \
   && rm -rf /var/lib/apt/lists/*
 
@@ -18,7 +19,7 @@ RUN apt-get update \
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
   && apt-get update \
-  && apt-get install --yes \
+  && apt-get -f install --yes --no-install-recommends \
     google-chrome-stable \
   && rm -rf /var/lib/apt/lists/*
 
